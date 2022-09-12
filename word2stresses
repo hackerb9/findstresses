@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Given a word, print out the stress pattern as . and -.
+
+word="$1"
+
+# 0 is no stress
+# 1 is primary stress
+# 2 is secondary stress, currently displayed as _ instead of -. 
+
+# BUGS:
+
+# * What is the right output for words with secondary stress, like
+#   INQUISITION IH2 N K W AH0 Z IH1 SH AH0 N. 
+#   Maybe outputting a tilde or underscore for secondary stress?
+#   Currently, prints "~".
+
+egrep -iw "^$word[ (]" cmudict-0.7b  | sed -r 's/ [[:alpha:]]+//g;
+      	  	     		     	       y/012/.-~/; ' | uniq
