@@ -46,9 +46,10 @@ could also search for either a secondary stress or unstressed syllable by using 
 
 ## BUGS
 
-### Avoid or flag words with multiple stress patterns. 
+### Ought to avoid or flag words with multiple stress patterns. 
 
 For example:
+
     YOURSELF  Y ER0 S EH1 L F
     YOURSELF(1)  Y UH0 R S EH1 L F
     YOURSELF(2)  Y AO1 R S EH0 L F
