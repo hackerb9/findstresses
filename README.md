@@ -59,5 +59,5 @@ For example:
 Hackerb9 wrote this program to create mnemonic words for each letter in the Morse Code alphabet.
 That works fine for small codes, like dit-DAH (letter 'A' is "a-WAY"). However, a longer code like
 DAH-dit-dit-dit (letter 'B') has a list of words which aren't very memorable. How is one to remember
-that the word is "BENIFITING", and not "BENEFIT"? Or, "BROKERAGES" and not "BROKERAGE"?
+that the key word is "BENIFITING", and not "BENEFIT"? Or, "BROKERAGES" and not "BROKERAGE"?
 
