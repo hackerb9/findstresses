@@ -1,0 +1,65 @@
+#!/bin/bash
+# B9 2022
+
+# Show matching words, given a pattern of stresses in the form .-., where
+#
+#  . unstressed syllable
+#  - stressed syllable
+
+# Example:
+#
+# 	findstresses  a.-
+#
+# will find words that begin with the letter A and that have a short
+# followed by a long stress.
+
+# If a letter is included in the pattern the words will have to have
+# that letter in them. Sort of. It currently can match the
+# pronounciation, which may or may not be what is desired.
+
+
+
+# BUGS:
+
+# * This ought to not pick words that have multiple correct stress patterns.
+# 
+#    For example:
+#    YOURSELF  Y ER0 S EH1 L F
+#    YOURSELF(1)  Y UH0 R S EH1 L F
+#    YOURSELF(2)  Y AO1 R S EH0 L F
+#
+# * How should secondary stress ("2") be treated? Should words such as
+#   "AARDVARK", "BEYONCE", and "ZULU" simply be dropped? Or should
+#   secondary stress be treated the same as primary ("1")? I guess the
+#   fact that there's a question at all means it should be dropped.
+#
+#   For now, secondary is only matched if the user requests it:
+#
+#      ~ matches primary or secondary stressed syllables
+#      = matches secondary stresses only
+#      _ matches secondary stress or unstressed syllables
+
+# Syllable stress dictionary file to use (small version by default)
+cmudict=cmudict-0.7b.small
+
+# Use full CMU dictionary if -f flag is given
+if [[ "$1" == "-f" || "$1" == "--full" ]]; then cmudict=cmudict-0.7b; shift; fi
+
+
+pattern="$1"
+
+pattern=$(echo "$pattern" |
+	       sed -r 's/\./[^[:digit:](]*0 ?/g;
+	       	       s/\-/[^[:digit:](]*1 ?/g;
+	       	       s/\=/[^[:digit:](]*2 ?/g;
+	       	       s/\~/[^[:digit:](]*[12] ?/g;
+	       	       s/\_/[^[:digit:](]*[02] ?/g;
+		       s/^/^/;
+		       s/$/[^[:digit:]]*$/;')
+	       
+# Example:
+# egrep -i '^a[^[:digit:]]*0[^[:digit:]]*1[^[:digit:]]*$' cmudict-0.7b
+
+echo egrep -i "$pattern" ${cmudict}
+egrep -i "$pattern" ${cmudict}
+
