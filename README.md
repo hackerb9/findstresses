@@ -14,12 +14,12 @@ A period (`.`), unstressed.
    BENEVENTO B EH1 N AH0 V EY0 N T OW0
    BROKERAGE'S B R OW1 K ER0 IH0 JH IH0 Z
    BROKERAGES B R OW1 K ER0 IH0 JH IH0 Z
- ```
+   ```
  
  * Show the rhythm of stresses in the word Dracula:
    ```
-   ./word2stresses dracula
-   DRACULA -..
+     ./word2stresses dracula
+     DRACULA -..
    ```
    
 ## Data sources
