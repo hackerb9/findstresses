@@ -106,3 +106,24 @@ memorable. How is one to remember that the key word is "BENIFITING",
 and not "BENEFIT"? Or, "BROKERAGES" and not "BROKERAGE"?
 
 What we need is a poet. 
+
+## See also
+
+* [morsemnemonics.md](morsemnemonics.md) contains a list of possible
+  mnemonics for Morse Code created using the words suggested by these
+  programs.
+
+* `morse` from BSD games package for encoding and decoding morse code.
+  * `morse -s <<<"Hello World!"`
+  * `morse -d <<<".... . .-.. .-.. ---"`
+
+
+* `cw` command for learning morse code by beeping the speaker. 
+  
+  Note that the default speed is a little too low to learn the rhythm
+  of the beeping. Also, the default volume is 100%, so you'll want the
+  `-v` option. I suggest learners use 18wpm speed of each letter, but
+  with a Farnsworth gap so that each letter is distinct.
+
+  * `cw -v 20% --wpm=18 --gap 5 <<<"Hello World!"`
+ 
