@@ -21,10 +21,9 @@ scowl.le.70: ${common70}
 scowl.le.10: /usr/share/dict/scowl/english-words.10
 	cat ${^} | tr '[a-z]' '[A-Z]' | sort -k1b,1  > tmpfile && mv tmpfile ${@}
 
-# Remove words with ambiguous meter.
-cmudict${v}.unambiguous: cmudict${v}
-	./
-
+# Remove words having ambiguous meter.
+cmudict${v}.unambiguous: cmudict${v} unambiguous
+	./unambiguous <cmudict${v} >cmudict${v}.unambiguous
 
 .PHONY: clean
 clean:
