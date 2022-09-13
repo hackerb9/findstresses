@@ -2,18 +2,44 @@
 
 # Given a word, print out the stress pattern as . and -.
 
-word="$1"
+# . is no stress
+# - is primary stress
+# ~ is secondary stress
 
-# 0 is no stress
-# 1 is primary stress
-# 2 is secondary stress, currently displayed as _ instead of -. 
+# If a word has multiple stress patterns, then all of them will be
+# shown, one per line.
+
+# For example
+#
+#     ./word2stresses rocard
+#     ROCARD -.
+#     ROCARD -~
+#     ROCARD ~-
+#     ROCARD .-
+
 
 # BUGS:
 
 # * What is the right output for words with secondary stress, like
-#   INQUISITION IH2 N K W AH0 Z IH1 SH AH0 N. 
-#   Maybe outputting a tilde or underscore for secondary stress?
-#   Currently, prints "~".
+#   INQUISITION IH2 N K W AH0 Z IH1 SH AH0 N? Currently using ~.
 
-egrep -iw "^$word[ (]" cmudict-0.7b  | sed -r 's/ [[:alpha:]]+//g;
-      	  	     		     	       y/012/.-~/; ' | uniq
+# * Note that duplicate stresses are not removed unless adjacent.
+#   (Only easy fix is to sort by pattern, but I believe CMU dict is
+#   sorted such that the most common usage is at the top. If so, it
+#   should remain that way.)
+#
+#     $ ./word2stresses whitening
+#     WHITENING -..
+#     WHITENING -.
+#     WHITENING -..
+#     WHITENING -.
+
+
+
+word="$1"
+
+egrep -iw "^$word(\([0-9]\))? " cmudict-0.7b  \
+    | sed -r 's/\([0-9]\)//;
+      	      s/ [[:alpha:]]+//g;
+              y/012/.-~/; ' \
+    | uniq
