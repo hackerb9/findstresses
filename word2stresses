@@ -35,6 +35,9 @@
 #     WHITENING -.
 
 
+# The full CMU dictionary is always used for looking up words.
+# Ignore -f, if given. That's for stress2words..
+if [[ "$1" == "-f" || "$1" == "--full" ]]; then shift; fi
 
 word="$1"
 
