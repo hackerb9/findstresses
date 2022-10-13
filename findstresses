@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Front end for word2stresses and stress2words. Guesses which is wanted.
+# If the argument has periods and dashes, then use stress2words.
+# If the argument is completely alphabetical, then use word2stresses.
+
+usage() {
+    cat <<EOF
+    findstresses zeppelin
+    findstresses .-.
+    findstresses a.-
+    findstresses -f -.-.-
+EOF
+}
+
+if [[ $# -eq 0 ]]; then  usage; exit; fi
+
+bindir=$(dirname "$0")
+
+# Only look at last argument to skip over possible flags, like "-f"
+while [[ $# -gt 1 ]]; do args+=($1); shift; done
+args+=($1)
+
+if [[ "$1" =~ ^([[:alpha:]]?[-\.~=_])+$ ]]; then
+    # Optional letter followed by syllable markers
+    $bindir/stress2words "${args[@]}"
+elif [[ $1 =~ ^[[:alpha:]]+$ ]]; then
+    # Purely alphabetic
+    $bindir/word2stresses "${args[@]}"
+else
+    # Neither. Probably something like Don't, X-ray, Messr., Zig-Zag, Wi-Fi, Son-in-Law, U.S.A.
+    $bindir/word2stresses "${args[@]}"
+fi
+
+    
+
