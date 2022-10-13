@@ -11,22 +11,34 @@
 # 	findstresses  a.-
 #
 # will find words that begin with the letter A and that have a short
-# followed by a long stress.
+# followed by a long stress. (Which happens to be morse code for "A").
 
-# If a letter is included in the pattern the words will have to have
-# that letter in them. Sort of. It currently can match the
-# pronounciation, which may or may not be what is desired.
+# Only a letter before any syllables will work as expected. (See bugs).
 
+# If a letter is included in the pattern elsewhere the words will have
+# to have that letter at the start of that syllables _pronunciation_,
+# which is probably not what is desired.
+
+# This is due to the formatting of the CMU dictionary format which
+# splits syllables phonetically, not orthographically (by spelling).
 
 
 # BUGS:
 
 # * This ought to not pick words that have multiple correct stress patterns.
 # 
-#    For example:
-#    YOURSELF  Y ER0 S EH1 L F
-#    YOURSELF(1)  Y UH0 R S EH1 L F
-#    YOURSELF(2)  Y AO1 R S EH0 L F
+#     For example:
+#     YOURSELF  Y ER0 S EH1 L F
+#     YOURSELF(1)  Y UH0 R S EH1 L F
+#     YOURSELF(2)  Y AO1 R S EH0 L F
+#
+
+# * Only a letter before all syllables will work as expected. If a
+#   letter is included in the pattern elsewhere it matches that letter
+#   at the start of that syllable's _pronunciation_, not its spelling.
+#   This is probably not what is desired. This is due to the
+#   formatting of the CMU dictionary format which splits syllables
+#   phonetically, not orthographically.
 #
 # * How should secondary stress ("2") be treated? Should words such as
 #   "AARDVARK", "BEYONCE", and "ZULU" simply be dropped? Or should
@@ -38,6 +50,33 @@
 #      ~ matches primary or secondary stressed syllables
 #      = matches secondary stresses only
 #      _ matches secondary stress or unstressed syllables
+#
+# * 
+
+if [[ "$#" -eq 0 ]]; then
+    cat <<EOF
+Show matching words, given a pattern of stresses in the form .-., where
+
+
+Usage: stress2words [-f | --full] <pattern>
+
+    --full: Use full CMU dictionary 
+	    (default is to use only common words) 
+
+  <pattern> A pattern of stressed syllables to look for:
+	       . unstressed syllables are marked by a period
+	       - stressed syllables are marked by a dash
+	       A prefixed letter specifies what the word starts with
+
+Example:
+
+    stress2words  x-.
+
+will find words that begin with the letter X, have two syllables, with
+the first one long and the second one short.
+EOF
+    exit
+fi
 
 # Syllable stress dictionary file to use (small version by default)
 cmudict=cmudict-0.7b.small
